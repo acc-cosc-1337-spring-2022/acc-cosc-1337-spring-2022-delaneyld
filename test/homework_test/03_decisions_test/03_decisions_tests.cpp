@@ -22,4 +22,5 @@ TEST_CASE("Test get_letter_grade_using_switch ")
 	REQUIRE("C" == get_letter_grade_using_switch(75));
 	REQUIRE("D" == get_letter_grade_using_switch(65));
 	REQUIRE("F" == get_letter_grade_using_switch(50));
+	REQUIRE("F" == get_letter_grade_using_switch(0));
 }

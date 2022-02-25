@@ -48,20 +48,21 @@ std::string get_letter_grade_using_switch(int grade)
 	switch(grade_10)
 	{
 		case 0: 
-			letter_grade_sw = "F"; 
-			break; 
+		// this is not needed because it will skip straight to case 5
+		// 	letter_grade_sw = "F"; 
+		// 	break; 
 		case 1: 
-			letter_grade_sw = "F"; 
-			break; 
+		// 	letter_grade_sw = "F"; 
+		// 	break; 
 		case 2: 
-			letter_grade_sw = "F"; 
-			break; 
+		// 	letter_grade_sw = "F"; 
+		// 	break; 
 		case 3: 
-			letter_grade_sw = "F"; 
-			break; 
+		// 	letter_grade_sw = "F"; 
+		// 	break; 
 		case 4: 
-			letter_grade_sw = "F"; 
-			break; 
+		// 	letter_grade_sw = "F"; 
+		// 	break; 
 		case 5: 
 			letter_grade_sw = "F"; 
 			break; 
