@@ -4,7 +4,36 @@
 #include "sequence.h"
 
 //write using statements for cin cout
+using std::string, std::cin, std::cout; 
 
+
+int main()
+{
+	int choice; 
+	char user_confirm;
+
+	do
+	{	
+		user_menu(); 
+		choice = run_user_menu(); 
+
+		if (choice != 3)
+		{
+			user_menu_conditions(choice); 
+		}
+		else 
+		{
+			user_confirm = user_confirm_check(); 
+			if (user_confirm =='y')
+			{
+				cout<<"Exiting program.\n"; 
+			}
+		}
+
+	}while(user_confirm != 'y'); 
+
+	return 0;
+}
 
 /*
 Write code to create a vector of string names, add the values "John", "Mary", "Patty",
@@ -15,10 +44,3 @@ function.
 Don't worry about displaying a message for values that aren't found.  Assume user will
 give you a valid name.
 */
-
-int main()
-{
-
-	return 0;
-}
-
