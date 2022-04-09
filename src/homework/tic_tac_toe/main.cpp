@@ -5,8 +5,10 @@ using std::cout; using std::cin; using std::string;
 int main() 
 {
 	TicTacToe game; 
+	TicTacToeManager manager; 
 	string first_player;
 	char choice; 
+	int o; int x; int t; 
 
 	do
 	{
@@ -25,17 +27,10 @@ int main()
 		game.start_game(first_player); 
 	}
 
-	int position; 
-
 	while( game.game_over() == false) //play while game board is not full 
 	{
-		cout<<"Enter position [1-9]: "; 
-		cin>>position; 
-		if (position >= 1 && position <= 9) //input validation to ensure that postion is within accepted range, otherwise board will stay empty 
-		{
-			game.mark_board(position); 
-		}
-		game.display_board(); 
+		cin >> game; //call overloaded position function 
+		cout << game; //call overloaded display board function 
 
 	}
 
@@ -44,19 +39,25 @@ int main()
 
 		if (game.get_winner() != "C") //check that there is no tie and display winner 
 		{
-			cout<< "\n" << game.get_winner() << " is the winner!"<< "\n"; 
+			cout<< "\n" << game.get_winner() << " is the winner!"<< "\n\n"; 
 		}
 		else //tie case 
 		{
-			cout<< "\nThere is no winner. The game was a tie."<< "\n"; 
+			cout<< "\nThere is no winner. The game was a tie."<< "\n\n"; 
 		}
+
+		manager.save_game(game); //save game to TicTacToeManager
+		manager.get_winner_total(o, x, t); //display running scores to user 
 
 	}
 
-	cout<<"Continue type Y: ";
+	cout<<"\nContinue type Y: ";
 	cin>>choice; 
 
 	} while(choice == 'Y'|| choice == 'y');
+
+	//after user opts out of playing, display all the games played 
+	cout<<manager; 
 	
 
 	return 0;

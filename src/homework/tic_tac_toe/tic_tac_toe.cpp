@@ -3,7 +3,7 @@
 #include "tic_tac_toe.h"
 #include <iostream>
 
-using std::string, std::cout; 
+using std::string, std::cout, std::cin, std::vector, std::ostream, std::istream; 
 
 void TicTacToe::start_game(std::string first_player)
 {
@@ -18,15 +18,6 @@ void TicTacToe::mark_board(int position)
 
 }
 
-void TicTacToe::display_board() const
-{
-    for(int i=0; i < 9; i +=3)
-    {
-        cout<<pegs[i]<<"|"<<pegs[i+1]<<"|"<<pegs[i+2]<<"\n"; 
-
-    }
-
-}
 
 void TicTacToe::set_next_player()
 {
@@ -245,6 +236,106 @@ void TicTacToe::set_winner()
     else 
     {
         winner = "X"; 
+    }
+
+}
+
+//Overloaded cout to output the board 
+std::ostream& operator<<(std::ostream& out, const TicTacToe& game)
+{
+    for(int i=0; i < 9; i +=3)
+    {
+       out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"\n"; 
+    }
+
+    return out; 
+
+}
+
+
+//Overloaded cin to capture position 
+std::istream& operator>>(std::istream& in, TicTacToe& game)
+{
+    int position; 
+    cout<<"Enter position [1-9]: "; 
+	in>>position; 
+    if (position >= 1 && position <= 9) //input validation to ensure that postion is within accepted range, otherwise board will stay empty 
+		{
+			game.mark_board(position); 
+		}
+
+    return in; 
+
+}
+
+void TicTacToeManager::save_game(TicTacToe b)
+{
+    //add the TicTacToe to games vector with push_back
+    games.push_back(b); 
+
+    //call update winner count and pass in get_winner function from tictactoe 
+    update_winner_count(b.get_winner()); 
+
+}
+
+//Loop through vector of TicTacToe and call TicTacToe cout 
+std::ostream& operator<<(std::ostream & out, const TicTacToeManager & manager)
+{
+    //another way to loop with an iterable 
+    // for (auto i = manager.games.begin(); i != manager.games.end(); ++i )
+    // {
+    //     out << *i << "\n"; 
+    // }
+
+    //could also use a for each 
+    //for (auto test_game: manager.games)
+    //{
+    //    out << test_game << "\n";
+    //}
+
+    for (int i= 0; i < manager.games.size(); ++ i)
+    {
+        out << manager.games[i] << "\n"; 
+    }
+
+    return out; 
+
+}
+
+//Use references to get the winner, way to verify counts are correct, use for test  
+void TicTacToeManager::get_winner_total(int& o, int& x, int& t)  //note - w changed to x here 
+{
+    
+    // o win total 
+    o = o_win; // pass private totals to ref var 
+
+    // x win total 
+    x = x_win; // pass private totals to ref var 
+
+    // ties total 
+    t = ties; // pass private totals to ref var
+
+    //Show the running totals 
+    cout << "X wins: "<< x << "\n"; 
+    cout << "O wins: "<< o << "\n"; 
+    cout << "Ties: " << t << "\n"; 
+    
+}
+
+//update winner count 
+void TicTacToeManager::update_winner_count(string winner)
+{
+    if (winner == "X")
+    {
+        x_win += 1; 
+    }
+    else if (winner == "O")
+    {
+        o_win += 1; 
+    }
+    else if (winner == "C")
+    {
+        ties += 1; 
     }
 
 }
