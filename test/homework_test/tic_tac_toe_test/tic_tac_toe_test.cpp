@@ -71,6 +71,7 @@ TEST_CASE("Test win by first column" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(7); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner 
 
 }
 
@@ -89,6 +90,7 @@ TEST_CASE("Test win by second column" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(8); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -107,6 +109,7 @@ TEST_CASE("Test win by third column" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(9); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -125,6 +128,7 @@ TEST_CASE("Test win by first row" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(3); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -143,6 +147,7 @@ TEST_CASE("Test win by second row" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(6); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -161,6 +166,7 @@ TEST_CASE("Test win by third row" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(9); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -179,6 +185,7 @@ TEST_CASE("Test win diagonally from top left" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(9); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
 }
 
@@ -197,5 +204,87 @@ TEST_CASE("Test win diagonally from bottom left" )
 	REQUIRE(false == game.game_over()); 
 	game.mark_board(3); //X move 
 	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
 
+}
+
+TEST_CASE("Test get winner total function with 3 or more games")
+{
+	//x, t, o variables to be used later 
+	int x; 
+	int t; 
+	int o; 
+
+	//first game - X win 
+	TicTacToe game; 
+	TicTacToeManager manager; //adding tictactoe manager 
+	string first_player = "X"; 
+	string winner; 
+
+	game.start_game(first_player); 
+	game.mark_board(7); //X move
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(2); 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(5); //X move 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(6); 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(3); //X move 
+	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
+	manager.save_game(game); //add game to manager 
+
+	
+	//second game - X win 
+	first_player = "X"; 
+	game.start_game(first_player); 
+	game.mark_board(1); //X move
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(2); 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(5); //X move 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(6); 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(9); //X move 
+	REQUIRE(true == game.game_over()); 
+	REQUIRE("X" == game.get_winner()); //NEW ASSERTION - to test get winner
+	manager.save_game(game); //add game to manager 
+
+
+	//third game - tie 
+	first_player = "X"; 
+	game.start_game(first_player); 
+	game.mark_board(1); // X move
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(3); 
+	REQUIRE(false == game.game_over()); 
+	game.mark_board(2); // X move 
+	REQUIRE(false == game.game_over());
+	game.mark_board(4); 
+	REQUIRE(false == game.game_over());
+	game.mark_board(5); // X move 
+	REQUIRE(false == game.game_over());
+	game.mark_board(8); 
+	REQUIRE(false == game.game_over());
+	game.mark_board(7); // X move 
+	REQUIRE(false == game.game_over());
+	game.mark_board(9); 
+	REQUIRE(false == game.game_over());
+	game.mark_board(6); // X move 
+	REQUIRE(true == game.game_over());
+
+	REQUIRE("C" == game.get_winner()); 
+	manager.save_game(game); //add game to manager 
+
+	std::cout << manager; //display games 
+
+	manager.get_winner_total(o, x, t); 
+
+	// REQUIRE(2 == x); // 2 x wins 
+
+	// REQUIRE(1 == t); // 1 tie 
+
+	// REQUIRE(0 == o); // 0 o wins 
 }
