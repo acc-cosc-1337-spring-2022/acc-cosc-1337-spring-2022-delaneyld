@@ -92,138 +92,21 @@ bool TicTacToe::game_over()
 
 bool TicTacToe::check_column_win()
 {
-    //wins with marked values 1/4/7, 2/5/8, or 3/6/9 with all Os or Xs
-    //vector index subtracts 1 from all of the above values 
-    bool check_empty = false; 
-    bool check_col_win = false; 
-    auto count = 0; 
-
-    while (check_col_win == false && count < 3)
-    {
-        if (pegs[count]=="")
-        {
-            check_empty = true; 
-        }
-        else if (pegs[count]=="X")
-        {
-            if (pegs[count+3] == "X" && pegs[count+6]== "X")
-            {
-                check_col_win = true; 
-            }
-        }
-        else if (pegs[count]=="O")
-        {
-            if (pegs[count+3]=="O" && pegs[count+6]=="O")
-            {
-                check_col_win = true; 
-            }
-        }
-
-        ++count; 
-    }
-
-    return check_col_win; 
+   
+    return false; 
 }
 
 bool TicTacToe::check_row_win()
 {
-    //wins with marked values 1/2/3 or 4/5/6 or 7/8/9 with all Os or Xs 
-    bool check_empty = false; 
-    bool check_row_win = false; 
-    auto count = 0; 
 
-    while (check_row_win == false && count < 7)
-    {
-        if (pegs[count]=="")
-        {
-            check_empty = true; 
-        }
-        else if (pegs[count]=="X")
-        {
-            if (pegs[count+1] == "X" && pegs[count+2]== "X")
-            {
-                check_row_win = true; 
-            }
-        }
-        else if (pegs[count]=="O")
-        {
-            if (pegs[count+1]=="O" && pegs[count+2]=="O")
-            {
-                check_row_win = true; 
-            }
-        }
-
-        count += 3; 
-    }
-
-    return check_row_win; 
+    return false; 
 
 }
 
-bool TicTacToe::check_diagonal_win()
+ bool TicTacToe::check_diagonal_win()
 {
-    //wins with marked values 1/5/9 or 7/5/3 with all Os or Xs
-    bool check_empty = false; 
-    bool check_diagonal_win = false; 
-    auto count = 0; 
-    auto count2 = 99; //variable for switch loop, will hit default if board space is empty
 
-    while (check_diagonal_win == false && count < 3)
-    {
-        if (pegs[count]=="")
-        {
-            check_empty = true; 
-        }
-        else
-        {
-            count2 = count; 
-        }
-        
-        switch(count2)
-        {
-            case 0: 
-                if (pegs[count]=="X")
-                {
-                    if(pegs[count+4]=="X" && pegs[count+8] == "X")
-                    {
-                        check_diagonal_win = true; 
-                    }
-                }
-                else if (pegs[count]=="O")
-                {
-                    if(pegs[count+4]=="O" && pegs[count+8] == "O")
-                    {
-                        check_diagonal_win = true; 
-                    }
-                }
-                break; 
-            
-            case 2: 
-                if (pegs[count]=="X")
-                {
-                    if(pegs[count+2]=="X" && pegs[count+4] == "X")
-                    {
-                        check_diagonal_win = true; 
-                    }
-                }
-                else if (pegs[count]=="O")
-                {
-                    if(pegs[count+2]=="O" && pegs[count+4] == "O")
-                    {
-                        check_diagonal_win = true; 
-                    }
-                }
-                break; 
-            
-            default: 
-                break; 
-
-        }
-
-        count += 2; 
-    }
-
-    return check_diagonal_win; 
+    return false; 
 
 }
 
@@ -241,25 +124,46 @@ void TicTacToe::set_winner()
 }
 
 //Overloaded cout to output the board 
-std::ostream& operator<<(std::ostream& out, const TicTacToe& game)
+std::ostream& operator<<(std::ostream& out, const TicTacToe& game) //probably need to use size to modify 
 {
-    for(int i=0; i < 9; i +=3)
+    int length = game.pegs.size(); 
+    if (length == 9)
     {
-       out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"\n"; 
-    }
+         for(int i=0; i < length; i += 3)  
+        {
+            out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"\n"; 
+         }
 
+    }
+    else if (length == 16)
+    {
+        for (int i=0; i < length; i += 4)  
+            {
+                out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"|"<<game.pegs[i+3]<<"\n"; 
+                }
+    }
     return out; 
 
 }
 
 
 //Overloaded cin to capture position 
-std::istream& operator>>(std::istream& in, TicTacToe& game)
-{
+std::istream& operator>>(std::istream& in, TicTacToe &game)
+{ 
     int position; 
-    cout<<"Enter position [1-9]: "; 
-	in>>position; 
-    if (position >= 1 && position <= 9) //input validation to ensure that postion is within accepted range, otherwise board will stay empty 
+    int length = game.pegs.size(); 
+    if (length == 9)
+    {
+        cout<<"Enter position [1-9]: "; 
+	    in>>position; 
+    }
+    else if (length == 16)
+    {
+        cout<<"Enter position [1-16]: "; 
+	    in>>position; 
+    }
+
+    if (position >= 1 && position <= length) //input validation to ensure that postion is within accepted range, otherwise board will stay empty 
 		{
 			game.mark_board(position); 
 		}
@@ -268,20 +172,21 @@ std::istream& operator>>(std::istream& in, TicTacToe& game)
 
 }
 
-void TicTacToeManager::save_game(TicTacToe b)
+void TicTacToeManager::save_game(std::unique_ptr <TicTacToe> &b)
 {
-    //add the TicTacToe to games vector with push_back
-    games.push_back(b); 
-
     //call update winner count and pass in get_winner function from tictactoe 
-    update_winner_count(b.get_winner()); 
+    update_winner_count(b -> get_winner()); //had to replace b.get_winner() with b -> get_winner() 
+
+    //add the TicTacToe to games vector with push_back
+    games.push_back(std::move (b) ); //need to add std::move
+
 
 }
 
 //Loop through vector of TicTacToe and call TicTacToe cout 
 std::ostream& operator<<(std::ostream & out, const TicTacToeManager & manager)
 {
-    //another way to loop with an iterable 
+    // //another way to loop with an iterable 
     // for (auto i = manager.games.begin(); i != manager.games.end(); ++i )
     // {
     //     out << *i << "\n"; 
@@ -293,9 +198,25 @@ std::ostream& operator<<(std::ostream & out, const TicTacToeManager & manager)
     //    out << test_game << "\n";
     //}
 
-    for (int i= 0; i < manager.games.size(); ++ i)
+    //std::cout<<*manager.games[0]; 
+
+    // for (int i= 0; i < manager.games.size(); i++)
+    // {
+    //     //  if (i == manager.games.size() - 1) 
+    //     //  {
+    //     //      break; 
+
+    //     //  }
+    //     out << *manager.games[i] << "\n";  
+
+    // }
+
+    //std::cout<<"Loop has been exited. "; 
+
+    for(auto& game: manager.games)
     {
-        out << manager.games[i] << "\n"; 
+        out << *game << "\n"; //have dereferenced game 
+
     }
 
     return out; 
@@ -318,7 +239,7 @@ void TicTacToeManager::get_winner_total(int& o, int& x, int& t)  //note - w chan
     //Show the running totals 
     cout << "X wins: "<< x << "\n"; 
     cout << "O wins: "<< o << "\n"; 
-    cout << "Ties: " << t << "\n"; 
+    cout << "Ties: " << t << "\n\n"; 
     
 }
 
