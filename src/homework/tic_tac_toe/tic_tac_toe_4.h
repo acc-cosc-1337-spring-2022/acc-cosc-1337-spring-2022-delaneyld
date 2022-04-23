@@ -1,8 +1,7 @@
 //h
 
-#include <string>
-#include <vector>
-#include <iostream>
+//#include <string>
+//#include <iostream> 
 #include "tic_tac_toe.h"
 
 #ifndef TIC_TAC_TOE_4_H
@@ -13,7 +12,8 @@
 class TicTacToe4: public TicTacToe
 {
 public:  
-    TicTacToe4(): TicTacToe(4){} //default constructor with inializer for TicTacToe
+    TicTacToe4(std::vector<std::string> p, std::string winner):TicTacToe(p, winner){} 
+    TicTacToe4():TicTacToe(4){} //default constructor with inializer for TicTacToe
 
 private: 
     bool check_column_win(); 

@@ -1,16 +1,21 @@
 #include "tic_tac_toe.h"
 #include "tic_tac_toe_3.h" 
 #include "tic_tac_toe_4.h"
+#include "tic_tac_toe_manager.h"
+#include "tic_tac_toe_data.h"
 #include <memory>
 
 using std::cout; using std::cin; using std::string; using std::unique_ptr; using std::make_unique; 
 
 int main() 
 {
+	TicTacToeData gamedata; 
+	TicTacToeManager manager(gamedata); 
+	//std::vector<string> pegs; 
+    //string win = "W"; //initial value of winner to create the pointers
 	unique_ptr<TicTacToe> game3 = make_unique<TicTacToe3>(); 
 	unique_ptr<TicTacToe> game4 = make_unique<TicTacToe4>();
-	unique_ptr<TicTacToe> game;  
-	TicTacToeManager manager; 
+	unique_ptr<TicTacToe> game;
 	string first_player;
 	char choice; 
 	int o; int x; int t; int type; 
